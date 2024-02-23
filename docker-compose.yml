@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    container_name: api
+    restart: always
+    ports:
+      - 8081:8080
+    environment:
+      DB_USER: root
+      DB_NAME: mytestdb
+      DB_PASSWORD: WfsZtGC8Nzq4c9IPNftP
+      DB_HOST: mytestdb.cixjdduxqkdr.us-east-1.rds.amazonaws.com
