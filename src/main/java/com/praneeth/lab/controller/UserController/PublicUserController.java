@@ -33,5 +33,13 @@ public class PublicUserController {
         return ResponseEntity.ok(new CommonResponse<>(true, "Your account has been activated successfully!"));
     }
 
+    @Throttling(timeFrameInSeconds = 60, calls = 2)
+    @PostMapping(value = "/account/forgot-password")
+    public ResponseEntity<?> forgotPasswordEmailSend(@RequestParam("email") String email) {
+        log.info("send forgot password verify email req => email : {}", email);
+        userService.sendForgotPasswordVerifyLink(email);
+        return ResponseEntity.ok(new CommonResponse<>(true, "Email sent!"));
+    }
+
 
 }
