@@ -1,5 +1,6 @@
 package com.praneeth.lab.controller.UserController;
 
+import com.praneeth.lab.config.throttling_config.Throttling;
 import com.praneeth.lab.dto.common.CommonResponse;
 import com.praneeth.lab.dto.user.PublicUserReqDto;
 import com.praneeth.lab.service.PublicUserService;
@@ -23,4 +24,14 @@ public class PublicUserController {
         userService.userSignUp(reqDto);
         return ResponseEntity.ok(new CommonResponse<>(true, "You have been successfully logged out!"));
     }
+
+    @Throttling(timeFrameInSeconds = 60, calls = 10)
+    @PostMapping(value = "/account/verify")
+    public ResponseEntity<?> verifyAccount(@RequestParam("token") String token) {
+        log.info("verifyAccount token => reqBody: {}",token);
+        userService.verifyAccount(token);
+        return ResponseEntity.ok(new CommonResponse<>(true, "Your account has been activated successfully!"));
+    }
+
+
 }
