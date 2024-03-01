@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -22,6 +23,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select user_unique_id from user order by created asc limit 1", nativeQuery = true)
     String findLatestUserUniqueId();
+
+    @Query(value = "select * from user u WHERE " +
+            "IF(?1 is not null , (u.first_name LIKE %?1%) OR (u.user_unique_id LIKE %?1%) OR (u.mobile LIKE %?1%), true) " +
+            "AND IF(?2 is not null , u.status=?2, true)", nativeQuery = true)
+    List<User> filterUserForAdmin(String keyword, String status);
 
     Optional<User> findFirstByUserName(String email);
 

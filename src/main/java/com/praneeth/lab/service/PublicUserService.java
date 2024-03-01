@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
+import java.util.List;
 
 
 public interface PublicUserService {
@@ -25,5 +26,7 @@ public interface PublicUserService {
     boolean checkPasswordResetToken(String token);
 
     void verifyAccount(String token);
+
+    List<PublicUserResDto> filterAllUserForAdmin(String keyword, ActiveStatus status);
 
 }

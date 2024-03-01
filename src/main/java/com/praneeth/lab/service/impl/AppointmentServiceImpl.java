@@ -69,6 +69,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .total(BigDecimal.ZERO)
                 .doctorReceiptUrl(doctorReceiptUrl)
                 .paymentSlipUrl(paymentSlip)
+                .status(Status.PENDING)
                 .created(new Date())
                 .user(user)
                 .appointmentDate(dto.getAppointmentDate())

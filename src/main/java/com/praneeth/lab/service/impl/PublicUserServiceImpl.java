@@ -6,6 +6,7 @@ import com.praneeth.lab.dto.user.*;
 import com.praneeth.lab.entity.User;
 import com.praneeth.lab.enums.common.AccountVerifyStatus;
 import com.praneeth.lab.enums.common.ActiveStatus;
+import com.praneeth.lab.enums.common.Status;
 import com.praneeth.lab.enums.common.UserRole;
 import com.praneeth.lab.exception.dto.CustomServiceException;
 import com.praneeth.lab.repository.*;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.praneeth.lab.constants.AppConstants.Email.*;
 import static com.praneeth.lab.constants.AppConstants.ErrorConstants.EMAIL_RESEND_ERROR;
@@ -264,6 +266,17 @@ public class PublicUserServiceImpl implements PublicUserService {
         }
     }
 
+    @Override
+    public List<PublicUserResDto> filterAllUserForAdmin(String keyword, ActiveStatus status) {
+
+        String updateKeyword = (keyword == null || keyword.isEmpty()) ? null : keyword.trim();
+        String updatedStatus = status.equals(ActiveStatus.ALL) ? null : status.name();
+
+        return userRepository.filterUserForAdmin(updateKeyword, updatedStatus)
+                .stream()
+                .map(user -> modelMapper.map(user, PublicUserResDto.class))
+                .collect(Collectors.toList());
+    }
 
 
     public void sendVerificationEmail(User user) {

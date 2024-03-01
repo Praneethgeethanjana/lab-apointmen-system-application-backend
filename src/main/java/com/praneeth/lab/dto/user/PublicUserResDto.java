@@ -25,10 +25,8 @@ public class PublicUserResDto {
     private String userName;
     private String address;
     private String zipCode;
-    private String walletAddress;
     private String mobile;
     private String country;
-    private Long referralUserId;
     private Date created;
     private Date updated;
     private ActiveStatus status;
