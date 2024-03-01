@@ -29,7 +29,7 @@ public class UserController {
         return ResponseEntity.ok(new CommonResponse<>(true,  res));
     }
 
-    @PostMapping(value = "/appointment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/appointment")
     public ResponseEntity<?> saveAppointment(@ModelAttribute AppointmentCreateDto dto, @RequestHeader(HEADER_AUTH) String token) {
         Long user_id = CustomUserAuthenticator.getUserIdFromToken(token);
         appointmentService.saveAppointment(dto, user_id);
