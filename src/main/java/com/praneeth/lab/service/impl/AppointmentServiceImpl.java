@@ -1,10 +1,12 @@
 package com.praneeth.lab.service.impl;
 
 import com.praneeth.lab.dto.appointment.AppointmentCreateDto;
+import com.praneeth.lab.dto.appointment.AppointmentResDto;
 import com.praneeth.lab.entity.Appointment;
 import com.praneeth.lab.entity.AppointmentDetails;
 import com.praneeth.lab.entity.MedicalTest;
 import com.praneeth.lab.entity.User;
+import com.praneeth.lab.enums.common.Status;
 import com.praneeth.lab.exception.dto.CustomServiceException;
 import com.praneeth.lab.repository.AppointmentDetailsRepository;
 import com.praneeth.lab.repository.AppointmentRepository;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.praneeth.lab.constants.AppConstants.ErrorConstants.S3_FAILED_TO_SAVE_FILE;
 import static com.praneeth.lab.constants.S3BucketFolderConstant.DOCTOR_RECEIPT_PATH;
@@ -67,6 +70,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .doctorReceiptUrl(doctorReceiptUrl)
                 .paymentSlipUrl(paymentSlip)
                 .created(new Date())
+                .user(user)
                 .appointmentDate(dto.getAppointmentDate())
                 .build();
 
@@ -92,5 +96,25 @@ public class AppointmentServiceImpl implements AppointmentService {
         saveAppointment.setTotal(total);
         appointmentRepository.save(saveAppointment);
 
+    }
+
+    @Override
+    public List<AppointmentResDto> filterAppointmentForAdmin(Date fromDate, Date toDate, String keyword, Status status) {
+
+        String updateKeyword = (keyword == null || keyword.isEmpty()) ? null : keyword.trim();
+        String updatedStatus = status.equals(Status.ALL) ? null : status.name();
+        return appointmentRepository.filterAppointmentForAdmin(updateKeyword, updatedStatus, fromDate, toDate)
+                .stream()
+                .map(appointment -> modelMapper.map(appointment, AppointmentResDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AppointmentResDto> filterAppointmentForUser(Long userId, Date fromDate, Date toDate, Status status) {
+        String updatedStatus = status.equals(Status.ALL) ? null : status.name();
+        return appointmentRepository.filterAppointmentForUser(userId, updatedStatus, fromDate, toDate)
+                .stream()
+                .map(appointment -> modelMapper.map(appointment, AppointmentResDto.class))
+                .collect(Collectors.toList());
     }
 }

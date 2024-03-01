@@ -34,8 +34,6 @@ public class PublicUserResDto {
     private ActiveStatus status;
     private UserRole userRole;
     private AccountVerifyStatus account_verify_status;
-    private Long referralUserCount;
-    private Date next_withdrawals_date;
 
 
 }

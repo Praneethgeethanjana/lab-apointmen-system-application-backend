@@ -2,8 +2,10 @@ package com.praneeth.lab.controller.UserController;
 
 import com.praneeth.lab.config.security.custom.CustomUserAuthenticator;
 import com.praneeth.lab.dto.appointment.AppointmentCreateDto;
+import com.praneeth.lab.dto.appointment.AppointmentResDto;
 import com.praneeth.lab.dto.common.CommonResponse;
 import com.praneeth.lab.dto.medicaltest.MedicalTestResDto;
+import com.praneeth.lab.enums.common.Status;
 import com.praneeth.lab.service.AppointmentService;
 import com.praneeth.lab.service.MedicalTestService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.praneeth.lab.constants.AppConstants.DetailConstants.HEADER_AUTH;
@@ -34,6 +37,17 @@ public class UserController {
         Long user_id = CustomUserAuthenticator.getUserIdFromToken(token);
         appointmentService.saveAppointment(dto, user_id);
         return ResponseEntity.ok(new CommonResponse<>(true,  "Appointment successfully created."));
+    }
+
+
+    @GetMapping(value = "/appointment")
+    public ResponseEntity<?> saveAppointment(@RequestParam Status status,
+                                             @RequestParam Date fromDate,
+                                             @RequestParam Date toDate,
+                                             @RequestHeader(HEADER_AUTH) String token) {
+        Long user_id = CustomUserAuthenticator.getUserIdFromToken(token);
+        List<AppointmentResDto> res = appointmentService.filterAppointmentForUser(user_id,fromDate, toDate , status);
+        return ResponseEntity.ok(new CommonResponse<>(true, res));
     }
 
 }
