@@ -7,7 +7,11 @@ import com.praneeth.lab.enums.common.TypeOfTest;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
@@ -19,9 +23,6 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Enumerated(value = EnumType.STRING)
-    private TypeOfTest typeOfTest;
 
     @Lob
     private String remark;
@@ -35,6 +36,9 @@ public class Appointment {
     @Lob
     private String paymentSlipUrl;
 
+    @Digits(integer = 9, fraction = 2)
+    private BigDecimal total;
+
     @JsonFormat(pattern = "dd-MM-yyyy HH:MM:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date appointmentDate;
@@ -46,6 +50,14 @@ public class Appointment {
     @JsonFormat(pattern = "dd-MM-yyyy HH:MM:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy = "appointment")
+    @ToString.Exclude
+    private List<AppointmentDetails> appointmentDetails = new ArrayList<>();
 
 
 }

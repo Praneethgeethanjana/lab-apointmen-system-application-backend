@@ -2,12 +2,11 @@ package com.praneeth.lab.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
@@ -26,5 +25,9 @@ public class MedicalTest {
 
     @Digits(integer = 9, fraction = 2)
     private BigDecimal fee;
+
+    @OneToMany(mappedBy = "medicalTest")
+    @ToString.Exclude
+    private List<AppointmentDetails> appointmentDetails = new ArrayList<>();
 
 }

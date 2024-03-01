@@ -9,7 +9,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Builder
@@ -82,5 +84,9 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     private AccountVerifyStatus account_verify_status;
+
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private List<Appointment> appointments = new ArrayList<>();
 
 }
