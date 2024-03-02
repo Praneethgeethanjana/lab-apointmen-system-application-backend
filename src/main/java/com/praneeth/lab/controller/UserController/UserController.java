@@ -2,6 +2,7 @@ package com.praneeth.lab.controller.UserController;
 
 import com.praneeth.lab.config.security.custom.CustomUserAuthenticator;
 import com.praneeth.lab.dto.appointment.AppointmentCreateDto;
+import com.praneeth.lab.dto.appointment.AppointmentReportResDto;
 import com.praneeth.lab.dto.appointment.AppointmentResDto;
 import com.praneeth.lab.dto.common.CommonResponse;
 import com.praneeth.lab.dto.medicaltest.MedicalTestResDto;
@@ -48,6 +49,15 @@ public class UserController {
         Long user_id = CustomUserAuthenticator.getUserIdFromToken(token);
         List<AppointmentResDto> res = appointmentService.filterAppointmentForUser(user_id,fromDate, toDate , status);
         return ResponseEntity.ok(new CommonResponse<>(true, res));
+    }
+
+    @GetMapping(value = "/appointment/{appointmentId}/report")
+    public ResponseEntity<?> getAppointmentReportForAdmin(@PathVariable("appointmentId") Long appointmentId, @RequestHeader(HEADER_AUTH) String token){
+        Long user_id = CustomUserAuthenticator.getUserIdFromToken(token);
+        List<AppointmentReportResDto> res = appointmentService.getAppointmentReportForUser(appointmentId, user_id);
+        return ResponseEntity.ok(new CommonResponse<>(true,  res));
+
+
     }
 
 }

@@ -31,6 +31,14 @@ public class AppointmentDetails {
     @Digits(integer = 9, fraction = 2)
     private BigDecimal fee;
 
+    @Lob
+    @Column(nullable = true)
+    private String reportUrl;
+
+    @Lob
+    @Column(nullable = true)
+    private String note;
+
     @JsonFormat(pattern = "dd-MM-yyyy HH:MM:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
