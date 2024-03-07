@@ -144,6 +144,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointmentDetails.setReportUrl(reportUrl);
         appointmentDetails.setNote(note);
+
+        Appointment appointment = appointmentDetails.getAppointment();
+        appointment.setStatus(Status.COMPLETED);
         appointmentDetailsRepository.save(appointmentDetails);
     }
 
