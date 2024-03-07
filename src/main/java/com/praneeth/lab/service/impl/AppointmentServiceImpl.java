@@ -127,6 +127,15 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (status==appointment.getStatus()){
             throw new CustomServiceException(SYSTEM_ERROR, "This appointment is already in "+status.name().toLowerCase() +" status");
         }
+
+
+        if (status==Status.COMPLETED){
+            boolean b = appointment.getAppointmentDetails()
+                    .stream()
+                    .anyMatch(appointmentDetails -> appointmentDetails.getReportUrl() == null);
+
+            if (b) throw new CustomServiceException("No document has been uploaded in the report regarding this appointment.");
+        }
         appointment.setStatus(status);
         appointmentRepository.save(appointment);
     }
