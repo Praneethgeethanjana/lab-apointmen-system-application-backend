@@ -122,6 +122,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void changeAppointmentStatus(Long appointmentId, Status status) {
+        log.info("start method => changeAppointmentStatus");
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new CustomServiceException(RESOURCE_NOT_FOUND, "Appointment not found!"));
         if (status==appointment.getStatus()){
             throw new CustomServiceException(SYSTEM_ERROR, "This appointment is already in "+status.name().toLowerCase() +" status");
