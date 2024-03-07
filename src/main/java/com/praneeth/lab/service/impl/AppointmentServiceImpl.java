@@ -132,6 +132,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    @Transactional
     public void uploadReportToAppointment(Long appointmentDetailsId, MultipartFile report, String note) {
         AppointmentDetails appointmentDetails = appointmentDetailsRepository.findById(appointmentDetailsId).orElseThrow(() -> new CustomServiceException(RESOURCE_NOT_FOUND, "related appointment details not found!"));
 
@@ -148,6 +149,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Appointment appointment = appointmentDetails.getAppointment();
         appointment.setStatus(Status.COMPLETED);
+        appointmentRepository.save(appointment);
         appointmentDetailsRepository.save(appointmentDetails);
     }
 
