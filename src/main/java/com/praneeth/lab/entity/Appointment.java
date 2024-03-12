@@ -39,7 +39,7 @@ public class Appointment {
     @Digits(integer = 9, fraction = 2)
     private BigDecimal total;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH:MM:ss")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.TIMESTAMP)
     private Date appointmentDate;
 

@@ -22,6 +22,7 @@ public class AppointmentDetails {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
+
     private MedicalTest medicalTest;
 
     @ManyToOne(fetch = FetchType.LAZY)

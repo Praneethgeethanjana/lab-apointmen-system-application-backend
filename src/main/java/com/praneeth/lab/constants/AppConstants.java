@@ -45,6 +45,8 @@ public class AppConstants {
 
     public static final class Email {
         public static final String VERIFY_EMAIL="Verify your email";
+
+        public static final String APPOINTMENT_ACTIVE_EMAIL="Appointment Confirmation";
         public static final String EMAIL_CONFORM_URL="{frontend_base_url}/verify-account?uid={token}";
         public static final String FORGOT_PASSWORD_URL="{frontend_base_url}/reset-password?uid={token}";
         public static final String FORGOT_PASSWORD="Reset Your Password Now";

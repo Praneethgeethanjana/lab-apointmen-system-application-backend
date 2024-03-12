@@ -1,5 +1,6 @@
 package com.praneeth.lab.service.impl;
 
+import com.praneeth.lab.constants.EmailHtmlConstant;
 import com.praneeth.lab.dto.appointment.AppointmentCreateDto;
 import com.praneeth.lab.dto.appointment.AppointmentReportResDto;
 import com.praneeth.lab.dto.appointment.AppointmentResDto;
@@ -15,17 +16,20 @@ import com.praneeth.lab.repository.MedicalTestRepository;
 import com.praneeth.lab.repository.UserRepository;
 import com.praneeth.lab.service.AppointmentService;
 import com.praneeth.lab.utilities.AWSHandler;
+import com.praneeth.lab.utilities.EmailSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.praneeth.lab.constants.AppConstants.Email.*;
 import static com.praneeth.lab.constants.AppConstants.ErrorConstants.S3_FAILED_TO_SAVE_FILE;
 import static com.praneeth.lab.constants.S3BucketFolderConstant.*;
 import static com.praneeth.lab.exception.constants.ErrorCodeConstants.RESOURCE_NOT_FOUND;
@@ -42,6 +46,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final MedicalTestRepository medicalTestRepository;
     private final AppointmentDetailsRepository appointmentDetailsRepository;
+    private final EmailSender emailSender;
     @Override
     @Transactional
     public void saveAppointment(AppointmentCreateDto dto, Long userId) {
@@ -128,7 +133,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new CustomServiceException(SYSTEM_ERROR, "This appointment is already in "+status.name().toLowerCase() +" status");
         }
 
-
         if (status==Status.COMPLETED){
             boolean b = appointment.getAppointmentDetails()
                     .stream()
@@ -136,6 +140,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
             if (b) throw new CustomServiceException("No document has been uploaded in the report regarding this appointment.");
         }
+
+        if (status==Status.ACTIVE){
+                try {
+                    emailSender.sendSimpleEmail(appointment.getUser().getUserName(), APPOINTMENT_ACTIVE_EMAIL,
+                            EmailHtmlConstant.sendAppointmentApprovedEmail(appointment));
+                } catch (MessagingException e) {
+                    throw new CustomServiceException(e.getMessage());
+                }
+        }
+
         appointment.setStatus(status);
         appointmentRepository.save(appointment);
     }

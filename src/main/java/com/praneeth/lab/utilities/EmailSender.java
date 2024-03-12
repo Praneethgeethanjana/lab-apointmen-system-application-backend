@@ -52,7 +52,7 @@ public class EmailSender {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, false);
-            helper.setFrom(mailFrom, "ancybtrading.com");
+            helper.setFrom(mailFrom, "ABC laboratory");
 
 //            message.setFrom(mailFrom);
 
@@ -92,7 +92,7 @@ public class EmailSender {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, false);
-            helper.setFrom(mailFrom, "ancybtrading.com");
+            helper.setFrom(mailFrom, "ABC laboratory");
 
 //            message.setFrom(mailFrom);
 
@@ -176,7 +176,7 @@ public class EmailSender {
             helper.setBcc(emailToAddresses);
             helper.setSubject(subject);
             helper.setText(text, true);
-            helper.setFrom(mailFrom, "ancybtrading.com");
+            helper.setFrom(mailFrom, "ABC laboratory");
             javaMailSender.send(msg);
             log.info("Method sendEmailWithList : mail successfully dispatched");
         } catch (Exception e) {

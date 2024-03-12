@@ -1,5 +1,6 @@
 package com.praneeth.lab.constants;
 
+import com.praneeth.lab.entity.Appointment;
 import com.praneeth.lab.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -571,6 +572,47 @@ public class EmailHtmlConstant {
                 "  </tr>\n" +
                 "  </tbody>\n" +
                 "</table>\n" +
+                "</body>\n" +
+                "</html>";
+    }
+
+
+    public static String sendAppointmentApprovedEmail(Appointment appointment) {
+        return "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    <title>Appointment Approval Confirmation</title>\n" +
+                "</head>\n" +
+                "<body style=\"font-family: 'Arial', sans-serif;\">\n" +
+                "\n" +
+                "    <div style=\"max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc;\">\n" +
+                "\n" +
+                "        <h2 style=\"color: #333;\">Appointment Approved</h2>\n" +
+                "\n" +
+                "        <p>Dear "+appointment.getUser().getFirstName()+" "+appointment.getUser().getLastName()+",</p>\n" +
+                "\n" +
+                "        <p>Your appointment has been approved. Below are the details:</p>\n" +
+                "\n" +
+                "        <table style=\"width: 100%; margin-top: 20px; border-collapse: collapse;\">\n" +
+                "            <tr>\n" +
+                "                <td style=\"padding: 8px; border: 1px solid #ccc; background-color: #f2f2f2;\">Appointment Date & Time:</td>\n" +
+                "                <td style=\"padding: 8px; border: 1px solid #ccc;\">"+appointment.getAppointmentDate().toString()+"</td>\n" +
+                "            </tr>\n" +
+                "            <tr>\n" +
+                "                <td style=\"padding: 8px; border: 1px solid #ccc; background-color: #f2f2f2;\">Lab Location:</td>\n" +
+                "                <td style=\"padding: 8px; border: 1px solid #ccc;\">Colombo</td>\n" +
+                "            </tr>\n" +
+                "            <!-- Add more appointment details as needed -->\n" +
+                "        </table>\n" +
+                "\n" +
+                "        <p>We look forward to seeing you at the scheduled appointment. If you have any questions or need further assistance, feel free to contact us.</p>\n" +
+                "\n" +
+                "        <p>Best regards,<br> ABC laboratory</p>\n" +
+                "\n" +
+                "    </div>\n" +
+                "\n" +
                 "</body>\n" +
                 "</html>";
     }

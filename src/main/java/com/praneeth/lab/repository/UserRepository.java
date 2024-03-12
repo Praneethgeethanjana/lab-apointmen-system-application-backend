@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT au FROM User au WHERE au.userName=?1 AND au.userRole=?2")
     Optional<User> findActiveAdminUserByUserNameOrEmail(String userName, UserRole userRole);
 
-    @Query(value = "select user_unique_id from user order by created asc limit 1", nativeQuery = true)
+    @Query(value = "select user_unique_id from user order by created desc limit 1", nativeQuery = true)
     String findLatestUserUniqueId();
 
     @Query(value = "select * from user u WHERE " +
