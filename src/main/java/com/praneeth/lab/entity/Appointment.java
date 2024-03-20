@@ -9,6 +9,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +43,9 @@ public class Appointment {
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.TIMESTAMP)
     private Date appointmentDate;
+
+
+    private LocalTime time;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:MM:ss")
     @Temporal(TemporalType.TIMESTAMP)

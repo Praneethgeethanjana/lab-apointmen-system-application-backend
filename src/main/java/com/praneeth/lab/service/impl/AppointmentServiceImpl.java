@@ -71,11 +71,12 @@ public class AppointmentServiceImpl implements AppointmentService {
         String[] idList = dto.getTestIdList().trim().split(",");
 
         Appointment appointment = Appointment.builder()
-                .appointmentDate(new Date())
+                .appointmentDate(dto.getAppointmentDate())
                 .total(BigDecimal.ZERO)
                 .doctorReceiptUrl(doctorReceiptUrl)
                 .paymentSlipUrl(paymentSlip)
                 .status(Status.PENDING)
+                .remark(dto.getRemark())
                 .created(new Date())
                 .user(user)
                 .appointmentDate(dto.getAppointmentDate())
